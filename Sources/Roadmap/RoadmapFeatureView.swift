@@ -105,8 +105,8 @@ struct RoadmapFeatureView: View {
     }
 }
 
-//struct RoadmapFeatureView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        RoadmapFeatureView(viewModel: .init(feature: .sample(), configuration: .sampleURL()))
-//    }
-//}
+struct RoadmapFeatureView_Previews: PreviewProvider {
+    static var previews: some View {
+        RoadmapFeatureView(viewModel: .init(feature: .sample(), configuration: .preview))
+    }
+}

@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-public struct RoadmapConfiguration {    
+public struct RoadmapConfiguration {
     /// The interface for retrieving and saving votes.
     public let voter: FeatureVoter
     
@@ -53,4 +53,8 @@ public struct RoadmapConfiguration {
         self.allowVotes = allowVotes
         self.allowSearching = allowSearching
     }
+}
+
+extension RoadmapConfiguration {
+    static var preview = Self(voter: MockFeatureVoter.mock)
 }
