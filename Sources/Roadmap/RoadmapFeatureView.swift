@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RoadmapFeatureView: View {
     @Environment(\.dynamicTypeSize) var typeSize
-    @StateObject var viewModel: RoadmapFeatureViewModel
+    var viewModel: RoadmapFeatureViewModel
 
     var body: some View {
         ZStack{
@@ -21,10 +21,6 @@ struct RoadmapFeatureView: View {
         }
         .background(viewModel.configuration.style.cellColor)
         .clipShape(RoundedRectangle(cornerRadius: viewModel.configuration.style.radius, style: .continuous))
-        .task {
-            await viewModel.getCurrentVotes()
-        }
-        
     }
     
     var horizontalCell : some View {
@@ -109,8 +105,8 @@ struct RoadmapFeatureView: View {
     }
 }
 
-struct RoadmapFeatureView_Previews: PreviewProvider {
-    static var previews: some View {
-        RoadmapFeatureView(viewModel: .init(feature: .sample(), configuration: .sampleURL()))
-    }
-}
+//struct RoadmapFeatureView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        RoadmapFeatureView(viewModel: .init(feature: .sample(), configuration: .sampleURL()))
+//    }
+//}

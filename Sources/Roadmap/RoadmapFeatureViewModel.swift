@@ -8,12 +8,11 @@
 import Foundation
 import SwiftUI
 
-final class RoadmapFeatureViewModel: ObservableObject {
-    let feature: RoadmapFeature
+@Observable
+final class RoadmapFeatureViewModel {
+    var feature: RoadmapFeature
     let configuration: RoadmapConfiguration
     let canVote: Bool
-
-    @Published var voteCount = 0
 
     init(feature: RoadmapFeature, configuration: RoadmapConfiguration) {
         self.feature = feature
@@ -23,21 +22,16 @@ final class RoadmapFeatureViewModel: ObservableObject {
     }
 
     @MainActor
-    func getCurrentVotes() async {
-        voteCount = await configuration.voter.fetch(for: feature)
-    }
-
-    @MainActor
     func vote() async {
         let newCount = await configuration.voter.vote(for: feature)
-        voteCount = newCount ?? (voteCount + 1)
+        feature.voteCount = newCount ?? (feature.voteCount + 1)
         feature.hasVoted = true
     }
 
     @MainActor
     func unvote() async {
         let newCount = await configuration.voter.unvote(for: feature)
-        voteCount = newCount ?? (voteCount - 1)
+        feature.voteCount = newCount ?? (feature.voteCount - 1)
         feature.hasVoted = false
     }
 }

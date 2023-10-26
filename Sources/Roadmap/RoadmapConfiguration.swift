@@ -8,10 +8,7 @@
 import Foundation
 import SwiftUI
 
-public struct RoadmapConfiguration {
-    /// Instead of a simple URL a Request is also possible for a more advanced way to the JSON
-    public let roadmapRequest: URLRequest
-    
+public struct RoadmapConfiguration {    
     /// The interface for retrieving and saving votes.
     public let voter: FeatureVoter
     
@@ -43,50 +40,17 @@ public struct RoadmapConfiguration {
     ///   - sorting: /// If set, will be used for sorting features.
     ///   - allowVotes: Set this to true to if you want to let users vote. Set it to false for read-only mode. This can be used to only let paying users vote for example.
     ///   - allowSearching: Set this to true to if you want to add a search bar so users can filter which features are shown.
-    public init(roadmapJSONURL: URL? = nil,
-                roadmapRequest: URLRequest? = nil,
-                voter: FeatureVoter? = nil,
-                namespace: String? = nil,
+    public init(voter: FeatureVoter,
                 style: RoadmapStyle = RoadmapTemplate.standard.style,
                 shuffledOrder: Bool = false,
                 sorting: ((RoadmapFeature, RoadmapFeature) -> Bool)? = nil,
                 allowVotes: Bool = true,
                 allowSearching: Bool = false) {
-        
-        guard roadmapJSONURL != nil || roadmapRequest != nil else {
-            fatalError("Missing roadmap URL or request")
-        }
-        
-        guard let namespace = namespace ?? Bundle.main.bundleIdentifier else {
-            fatalError("Missing namespace")
-        }
-        
-        guard let url = roadmapJSONURL ?? roadmapRequest?.url else {
-            fatalError("Missing URL")
-        }
-        
-        self.roadmapRequest = roadmapRequest ?? URLRequest(url: url)
-        self.voter = voter ?? FeatureVoterCountAPI(namespace: namespace)
+        self.voter = voter
         self.style = style
         self.shuffledOrder = shuffledOrder
         self.sorting = sorting
         self.allowVotes = allowVotes
         self.allowSearching = allowSearching
-    }
-
-}
-
-extension RoadmapConfiguration {
-    
-    static func sampleURL() -> RoadmapConfiguration {
-        .init(roadmapJSONURL: URL(string: "https://simplejsoncms.com/api/vq2juq1xhg")!, namespace: "roadmaptest")
-    }
-    
-    static func sampleRequest() -> RoadmapConfiguration {
-
-        var request = URLRequest(url: URL(string: "https://simplejsoncms.com/api/vq2juq1xhg")!)
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        
-        return RoadmapConfiguration.init(roadmapRequest: request, namespace: "roadmaptest")
     }
 }

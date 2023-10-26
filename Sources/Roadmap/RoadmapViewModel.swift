@@ -33,18 +33,18 @@ final class RoadmapViewModel: ObservableObject {
         self.configuration = configuration
         self.allowSearching = configuration.allowSearching
 
-        loadFeatures(request: configuration.roadmapRequest)
+        loadFeatures()
     }
 
-    func loadFeatures(request: URLRequest) {
+    func loadFeatures() {
         
         Task { @MainActor in
             if configuration.shuffledOrder {
-                self.features = await FeaturesFetcher(featureRequest: request).fetch().shuffled()
+                self.features = await configuration.voter.fetch().shuffled()
             } else if let sorting = configuration.sorting {
-                self.features = await FeaturesFetcher(featureRequest: request).fetch().sorted(by: sorting)
+                self.features = await configuration.voter.fetch().sorted(by: sorting)
             } else {
-                self.features = await FeaturesFetcher(featureRequest: request).fetch()
+                self.features = await configuration.voter.fetch()
             }
         }
     }

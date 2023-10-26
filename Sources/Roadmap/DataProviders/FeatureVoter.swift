@@ -8,8 +8,10 @@
 import Foundation
 
 public protocol FeatureVoter {
-    /// Fetches the current count for the given feature.
-    func fetch(for feature: RoadmapFeature) async -> Int
+
+    /// Fetches the current features.
+    /// - Returns: A list of [RoadmapFeature] instances.
+    func fetch() async -> [RoadmapFeature]
 
     /// Votes for the given feature.
     /// - Returns: The new `count` if successful.

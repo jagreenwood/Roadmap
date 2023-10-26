@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct RoadmapVoteButton: View {
-    @ObservedObject var viewModel: RoadmapFeatureViewModel
+    var viewModel: RoadmapFeatureViewModel
     @Environment(\.dynamicTypeSize) var typeSize
     
     @State private var isHovering = false
@@ -51,7 +51,7 @@ struct RoadmapVoteButton: View {
                         }
                         
                         if showNumber {
-                            Text("\(viewModel.voteCount)")
+                            Text("\(viewModel.feature.voteCount)")
                                 .lineLimit(1)
                                 .foregroundColor(hasVoted ? viewModel.configuration.style.selectedForegroundColor : viewModel.configuration.style.tintColor)
                                 .minimumScaleFactor(0.5)
@@ -82,7 +82,7 @@ struct RoadmapVoteButton: View {
                         }
                         
                         if showNumber {
-                            Text("\(viewModel.voteCount)")
+                            Text("\(viewModel.feature.voteCount)")
                                 .lineLimit(1)
                                 .foregroundColor(hasVoted ? viewModel.configuration.style.selectedForegroundColor : viewModel.configuration.style.tintColor)
                                 .font(viewModel.configuration.style.numberFont)
@@ -98,14 +98,14 @@ struct RoadmapVoteButton: View {
             .overlay(overlayBorder)
         }
         .buttonStyle(.plain)
-        .onChange(of: viewModel.voteCount) { newCount in
+        .onChange(of: viewModel.feature.voteCount) { _, newCount in
             if newCount > 0 {
                 withAnimation(.spring(response: 0.45, dampingFraction: 0.4, blendDuration: 0)) {
                     showNumber = true
                 }
             }
         }
-        .onChange(of: viewModel.feature.hasVoted) { newVote in
+        .onChange(of: viewModel.feature.hasVoted) { _, newVote in
             withAnimation(.spring(response: 0.45, dampingFraction: 0.4, blendDuration: 0)) {
                 hasVoted = newVote
             }
@@ -118,7 +118,7 @@ struct RoadmapVoteButton: View {
             }
         }
         .onAppear {
-            showNumber = viewModel.voteCount > 0
+            showNumber = viewModel.feature.voteCount > 0
             withAnimation(.spring(response: 0.45, dampingFraction: 0.4, blendDuration: 0)) {
                 hasVoted = viewModel.feature.hasVoted
             }
