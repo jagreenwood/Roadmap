@@ -28,6 +28,8 @@ public struct RoadmapView<Header: View, Footer: View>: View {
                     .listRowBackground(Color.clear)
             }
             footer
+        }.task {
+            await viewModel.loadFeatures()
         }
     }
 }

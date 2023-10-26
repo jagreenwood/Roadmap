@@ -32,20 +32,16 @@ final class RoadmapViewModel: ObservableObject {
     init(configuration: RoadmapConfiguration) {
         self.configuration = configuration
         self.allowSearching = configuration.allowSearching
-
-        loadFeatures()
     }
 
-    func loadFeatures() {
-        
-        Task { @MainActor in
-            if configuration.shuffledOrder {
-                self.features = await configuration.voter.fetch().shuffled()
-            } else if let sorting = configuration.sorting {
-                self.features = await configuration.voter.fetch().sorted(by: sorting)
-            } else {
-                self.features = await configuration.voter.fetch()
-            }
+    @MainActor
+    func loadFeatures() async {
+        if configuration.shuffledOrder {
+            self.features = await configuration.voter.fetch().shuffled()
+        } else if let sorting = configuration.sorting {
+            self.features = await configuration.voter.fetch().sorted(by: sorting)
+        } else {
+            self.features = await configuration.voter.fetch()
         }
     }
 
