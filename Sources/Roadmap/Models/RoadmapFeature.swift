@@ -11,6 +11,7 @@ public struct RoadmapFeature: Codable, Identifiable {
     enum CodingKeys: String, CodingKey {
         case id, title, status, description
         case voteCount = "vote_count"
+        case isFinished = "is_finished"
     }
 
     public let id: String
